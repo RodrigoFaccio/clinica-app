@@ -6,12 +6,12 @@ type ButtonProps = {
     title: string;
     onPress: () => void;
     image?: any;
-    textAligh?: 'default' | 'center';
+    textAlign?: 'default' | 'center';
 }
 
-export const ButtonComponent = ({ onPress, title, image, textAligh = 'default' }: ButtonProps) => {
+export const ButtonComponent = ({ onPress, title, image, textAlign = 'default' }: ButtonProps) => {
     return (
-        <ButtonStyled onPress={onPress} textAligh={textAligh} >
+        <ButtonStyled onPress={onPress} textAlign={textAlign} >
             <TextStyled>{title}</TextStyled>
             {image}
         </ButtonStyled>
@@ -24,13 +24,13 @@ font-weight: bold;
 color: #fff;
 `;
 
-type ButtonWithImageProps = Pick<ButtonProps, 'image' | 'textAligh'>
+type ButtonWithImageProps = Pick<ButtonProps, 'image' | 'textAlign'>
 
 const ButtonStyled = styled(Pressable) <ButtonWithImageProps>`
     display: flex;
     flex-direction: row;
-    align-items: ${({ image, textAligh }) => textAligh === 'center' ? 'center' : image ? 'flex-start' : 'center'};
-    justify-content:  ${({ image, textAligh }) => textAligh === 'center' ? 'center' : 'space-between'};
+    align-items: ${({ image, textAlign }) => textAlign === 'center' ? 'center' : image ? 'flex-start' : 'center'};
+    justify-content:  ${({ image, textAlign }) => textAlign === 'center' ? 'center' : 'space-between'};
     padding-left: 24px;
     padding-right: 16px;
 
