@@ -4,16 +4,17 @@ import { StyleSheet, Text, View } from 'react-native';
 import { ButtonComponent } from './src/components/Button';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Input } from './src/components/Input';
-import { Login } from './src/pages/Login';
-import { Menu } from './src/pages/Menu';
-import { SearchPatients } from './src/pages/SearchPatients';
+import { ThemeProvider } from 'styled-components/native';
+import ThemeDefault, { ThemeProps } from './src/styles/themes/default';
+
 
 export default function App() {
   const [text, setText] = useState('')
   const [password, setPassword] = useState('')
 
-  return (
-   /*  <View style={styles.container}>
+
+  return (<ThemeProvider theme={ThemeDefault}>
+    <View style={styles.container}>
       <Text>Forms </Text>
       <View style={{
         marginTop: 16, width: '100%', alignItems: 'center',
@@ -27,9 +28,8 @@ export default function App() {
         <ButtonComponent onPress={() => { }} title='Rodrigo Facio' image={<MaterialIcons name="arrow-forward-ios" size={24} color="white" />} textAligh='center' />
       </View>
       <StatusBar style="auto" />
-    </View> */
-
-    <SearchPatients/>
+    </View>
+  </ThemeProvider>
   );
 }
 
