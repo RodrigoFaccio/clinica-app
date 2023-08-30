@@ -1,5 +1,5 @@
 import styled from "styled-components/native"
-import { Pressable, Text, Image, ImageProps } from "react-native"
+import { Pressable, Text, Image, ImageProps, TouchableOpacity } from "react-native"
 
 
 type ButtonProps = {
@@ -19,14 +19,14 @@ export const ButtonComponent = ({ onPress, title, image, textAlign = 'default' }
 }
 
 const TextStyled = styled(Text)`
-font-size: 16px;
+font-size: 18px;
 font-weight: bold;
 color: #fff;
 `;
 
 type ButtonWithImageProps = Pick<ButtonProps, 'image' | 'textAlign'>
 
-const ButtonStyled = styled(Pressable) <ButtonWithImageProps>`
+const ButtonStyled = styled(TouchableOpacity) <ButtonWithImageProps>`
     display: flex;
     flex-direction: row;
     align-items: ${({ image, textAlign }) => textAlign === 'center' ? 'center' : image ? 'flex-start' : 'center'};

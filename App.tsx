@@ -5,6 +5,8 @@ import { ButtonComponent } from './src/components/Button';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Input } from './src/components/Input';
 import { Login } from './src/pages/Login';
+import { Menu } from './src/pages/Menu';
+import { SearchPatients } from './src/pages/SearchPatients';
 
 export default function App() {
   const [text, setText] = useState('')
@@ -27,7 +29,7 @@ export default function App() {
       <StatusBar style="auto" />
     </View> */
 
-    <Login/>
+    <SearchPatients/>
   );
 }
 

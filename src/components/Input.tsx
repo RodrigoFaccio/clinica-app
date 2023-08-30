@@ -7,9 +7,10 @@ type InputProps = {
     value: string;
     secureTextEntry?: boolean;
     keyboardType?: KeyboardTypeOptions;
+    children?:any
 }
 
-export const Input = ({ placeholder, onChangeText, value, secureTextEntry, keyboardType }: InputProps) => {
+export const Input = ({ placeholder, onChangeText, value, secureTextEntry, keyboardType,children }: InputProps) => {
     return (
         <InputStyled
             placeholder={placeholder}
@@ -18,7 +19,10 @@ export const Input = ({ placeholder, onChangeText, value, secureTextEntry, keybo
             secureTextEntry={secureTextEntry}
             placeholderTextColor={'rgba(83, 189, 189, 0.6)'}
             keyboardType={keyboardType}
-        />
+            
+        >
+            {children}
+        </InputStyled>
     )
 }
 
@@ -31,6 +35,5 @@ const InputStyled = styled.TextInput`
     padding: 12px 16px;
     font-size: 16px;
     color: rgb(83, 189, 189);
-
     border: 2px solid rgba(83, 189, 189, 0.8);
 `;
