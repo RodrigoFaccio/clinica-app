@@ -1,10 +1,9 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.KeyboardAvoidingView`
+export const Container = styled.View`
   justify-content: center;
   align-items: center;
   flex: 1;
-  gap: 20px;
 `;
 export const Image = styled.Image`
   width: 90%;

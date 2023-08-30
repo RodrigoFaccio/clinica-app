@@ -18,7 +18,6 @@ export const Menu = () => {
         
     const getMenu = async()=>{
         const {data}  = await api.get('/category/1');
-        console.log(data)
         setDataMenu(data.data)
 
     }
