@@ -1,4 +1,5 @@
-import { KeyboardTypeOptions } from "react-native";
+import { KeyboardTypeOptions, View } from "react-native";
+import { css } from "styled-components";
 import styled from "styled-components/native";
 
 type InputProps = {
@@ -7,33 +8,52 @@ type InputProps = {
     value: string;
     secureTextEntry?: boolean;
     keyboardType?: KeyboardTypeOptions;
-    children?:any
+    iconRight?: any
+    widthInput?: any
 }
 
-export const Input = ({ placeholder, onChangeText, value, secureTextEntry, keyboardType,children }: InputProps) => {
+export const Input = ({ placeholder, onChangeText, value, secureTextEntry, keyboardType, iconRight, widthInput }: InputProps) => {
     return (
-        <InputStyled
-            placeholder={placeholder}
-            onChangeText={onChangeText}
-            value={value}
-            secureTextEntry={secureTextEntry}
-            placeholderTextColor={'rgba(83, 189, 189, 0.6)'}
-            keyboardType={keyboardType}
-            
-        >
-            {children}
-        </InputStyled>
+        <ContainerInput width={widthInput}>
+            <InputStyled
+                placeholder={placeholder}
+                onChangeText={onChangeText}
+                value={value}
+                secureTextEntry={secureTextEntry}
+                placeholderTextColor={'rgba(83, 189, 189, 0.6)'}
+                keyboardType={keyboardType}
+            />
+            <IconStyled>{iconRight}</IconStyled>
+
+        </ContainerInput>
     )
 }
 
-const InputStyled = styled.TextInput`
-    background-color: #fff;
-    border-radius: 8px;
-    font-weight: 600;
-    height: 52px;
+const InputStyled = styled.TextInput<InputProps['iconRight']>`
     width: 90%;
     padding: 12px 16px;
     font-size: 16px;
     color: rgb(83, 189, 189);
+`;
+
+const IconStyled = styled.View`
+
+`;
+
+const ContainerInput = styled.View<InputProps['widthInput']>`
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+
+    height: 52px;
+    font-weight: 600;
+
+    border-radius: 8px;
     border: 2px solid rgba(83, 189, 189, 0.8);
+
+    background-color: #fff;
+    padding-right: 16px;
+
+    ${({ widthInput }) => widthInput && `${widthInput}px`}
 `;
