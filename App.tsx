@@ -4,12 +4,16 @@ import { StyleSheet, Text, View } from 'react-native';
 import { ButtonComponent } from './src/components/Button';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Input } from './src/components/Input';
+import { ThemeProvider } from 'styled-components/native';
+import ThemeDefault, { ThemeProps } from './src/styles/themes/default';
+
 
 export default function App() {
   const [text, setText] = useState('')
   const [password, setPassword] = useState('')
 
-  return (
+
+  return (<ThemeProvider theme={ThemeDefault}>
     <View style={styles.container}>
       <Text>Forms </Text>
       <View style={{
@@ -25,6 +29,7 @@ export default function App() {
       </View>
       <StatusBar style="auto" />
     </View>
+  </ThemeProvider>
   );
 }
 
