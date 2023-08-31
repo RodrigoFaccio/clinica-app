@@ -7,11 +7,12 @@ type ButtonProps = {
     onPress: () => void;
     image?: any;
     textAlign?: 'default' | 'center';
+    size?:string
 }
 
-export const ButtonComponent = ({ onPress, title, image, textAlign = 'default' }: ButtonProps) => {
+export const ButtonComponent = ({ onPress, title, image, textAlign = 'default' , size='100%' }: ButtonProps) => {
     return (
-        <ButtonStyled onPress={onPress} textAlign={textAlign} >
+        <ButtonStyled size={size} onPress={onPress} textAlign={textAlign} >
             <TextStyled>{title}</TextStyled>
             {image}
         </ButtonStyled>
@@ -24,7 +25,7 @@ font-weight: bold;
 color: #fff;
 `;
 
-type ButtonWithImageProps = Pick<ButtonProps, 'image' | 'textAlign'>
+type ButtonWithImageProps = Pick<ButtonProps, 'image' | 'textAlign' | 'size'>
 
 const ButtonStyled = styled(TouchableOpacity) <ButtonWithImageProps>`
     display: flex;
@@ -38,7 +39,7 @@ const ButtonStyled = styled(TouchableOpacity) <ButtonWithImageProps>`
     border-radius: 8px;
 
     height: 52px;
-    width: 90%;
+    width: ${({ size }) => size};
     gap: 16px;
 
 `;

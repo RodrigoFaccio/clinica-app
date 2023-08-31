@@ -3,7 +3,7 @@ import { css } from "styled-components";
 import styled from "styled-components/native";
 
 type InputProps = {
-    placeholder: string;
+    placeholder?: string;
     onChangeText: (text: string) => void;
     value: string;
     secureTextEntry?: boolean;
@@ -46,7 +46,7 @@ const ContainerInput = styled.View<InputProps['widthInput']>`
 
     align-items: center;
 
-    height: 52px;
+    height: 56px;
     font-weight: 600;
 
     border-radius: 8px;
