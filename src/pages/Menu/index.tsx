@@ -81,7 +81,7 @@ export const Menu = () => {
             key={item.id}
             onPress={() => {
               //@ts-ignore
-              navigation.navigate('ScreenQuestions', { questionId: item.id,id:route.params.id });
+              navigation.navigate('ScreenQuestions', { questionId: item.id,id:route.params.id , name:route.params.name});
             }}
             title={item.name}
             textAlign="center"

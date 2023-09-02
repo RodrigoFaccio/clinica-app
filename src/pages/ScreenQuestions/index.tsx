@@ -65,7 +65,7 @@ export const ScreenQuestions = () => {
             }
         AsyncStorage.setItem('answers', JSON.stringify(dataSave));
         //@ts-ignore
-        navigation.navigate('Menu',{id:route.params.id})
+       navigation.navigate('Menu',{id:route.params.id,name:route.params.name})
 
     }else{
         const dataSave = {
