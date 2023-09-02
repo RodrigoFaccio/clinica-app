@@ -1,5 +1,6 @@
 import styled from "styled-components/native"
 import { Pressable, Text, Image, ImageProps, TouchableOpacity } from "react-native"
+import ThemeDefault from "../styles/themes/default";
 
 
 type ButtonProps = {
@@ -35,7 +36,7 @@ const ButtonStyled = styled(TouchableOpacity) <ButtonWithImageProps>`
     padding-left: 24px;
     padding-right: 16px;
 
-    background-color: #53BDBD;
+    background-color: ${ThemeDefault.colors.primary } ;
     border-radius: 8px;
 
     height: 52px;

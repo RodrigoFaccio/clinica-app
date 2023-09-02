@@ -3,13 +3,16 @@ import { Input } from '../../components/Input';
 import * as S from './styles';
 import { ButtonComponent } from '../../components/Button';
 import logo from '../../../assets/logo.png';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import axios from 'axios';
 import { FontAwesome } from '@expo/vector-icons';
 import { api } from '../../utils/api';
 import { MaterialIcons } from '@expo/vector-icons';
 import emoji from '../../../assets/emoji.png';
 import Modal from 'react-native-modal';
+import ThemeDefault from '../../styles/themes/default';
+import { Loading } from '../../components/Loading';
+import { useNavigation } from '@react-navigation/native';
 
 interface IMenuCard {
   id: number;
@@ -20,6 +23,7 @@ export const SearchPatients = () => {
   const [dataMenu, setDataMenu] = useState<IMenuCard[]>([]);
   const [search, setSearch] = useState<string>('');
   const [includeName, setIncludeName] = useState<string>('');
+  const navigation = useNavigation();
 
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
 
@@ -47,6 +51,9 @@ export const SearchPatients = () => {
     setModalVisible(false)
     setIncludeName('')
   };
+  if(dataMenu.length<=0 && search===''){
+    return <Loading/>
+  }
 
   return (
     <>
@@ -57,18 +64,22 @@ export const SearchPatients = () => {
           onChangeText={(e) => setSearch(e)}
           placeholder='Pacientes...'
           value={search}
-          iconRight={<FontAwesome name='search' size={24} color='#53BDBD' />}
+          iconRight={<FontAwesome name='search' size={24} color={ThemeDefault.colors.primary }  />}
         />
       </S.ViewTitle>
-      <ScrollView style={{ width: '100%', marginLeft: '5%' }}>
+      <ScrollView          
+        showsVerticalScrollIndicator={false}
+        style={{ width: '100%', marginLeft: '5%', }}>
         {dataMenu.length > 0 ? (
           dataMenu?.map((item) => (
             <View key={item.id} style={{ marginTop: 20 }}>
               <ButtonComponent
-                onPress={() => {}}
+              size='90%'
+              //@ts-ignore
+                onPress={() => {navigation.navigate('MenuOptions',{name:item.name})}}
                 title={item.name}
                 textAlign='default'
-                image={<MaterialIcons name='arrow-forward-ios' size={24} color='white' />}
+                image={<MaterialIcons name='arrow-forward-ios' size={24} color={ThemeDefault.colors.white} />}
               />
             </View>
           ))
@@ -78,7 +89,7 @@ export const SearchPatients = () => {
               <S.Emoji source={emoji} />
               <S.NoResultText>Paciente não encontrado</S.NoResultText>
             </S.NoResults>
-            <ButtonComponent onPress={() => {setModalVisible(true)}} title='Cadastrar paciente' textAlign='center' />
+            <ButtonComponent size='90%' onPress={() => {setModalVisible(true)}} title='Cadastrar paciente' textAlign='center' />
             <View>
                 <Modal isVisible={isModalVisible}>
                     <View style={styles.modalContent}>
@@ -88,9 +99,9 @@ export const SearchPatients = () => {
                         onChangeText={(e) => setIncludeName(e)}
                         placeholder='Nome'
                         value={includeName}
-                        iconRight={<FontAwesome name='search' size={24} color='#53BDBD' />}
+                        iconRight={<FontAwesome name='search' size={24} color={ThemeDefault.colors.primary }  />}
                         />
-                    <ButtonComponent onPress={handleRegisterPatients} title='Cadastrar' textAlign='center' />
+                    <ButtonComponent size='90%' onPress={handleRegisterPatients} title='Cadastrar' textAlign='center' />
                     </View>
                 </Modal>
             </View>
@@ -103,7 +114,7 @@ export const SearchPatients = () => {
 const styles = StyleSheet.create({
     modalContent: {
       width:'100%',
-      backgroundColor: 'white',
+      backgroundColor: ThemeDefault.colors.white,
       justifyContent: 'center',
       alignItems: 'center',
       padding: 20,
@@ -114,7 +125,7 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       fontSize: 22,
       marginBottom: 20,
-      color:'#53BDBD',
+      color:ThemeDefault.colors.primary ,
       fontWeight:'bold'
     },
   });

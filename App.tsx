@@ -6,6 +6,10 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Input } from './src/components/Input';
 import { ThemeProvider } from 'styled-components/native';
 import ThemeDefault, { ThemeProps } from './src/styles/themes/default';
+import { ScreenQuestions } from './src/pages/ScreenQuestions';
+import { NavigationContainer } from '@react-navigation/native';
+import Routes from './src/routes';
+import { AuthProvider } from './src/context/LoginContext';
 
 
 export default function App() {
@@ -13,23 +17,14 @@ export default function App() {
   const [password, setPassword] = useState('')
 
 
-  return (<ThemeProvider theme={ThemeDefault}>
-    <View style={styles.container}>
-      <Text>Forms </Text>
-      <View style={{
-        marginTop: 16, width: '100%', alignItems: 'center',
-        gap: 16
-      }}>
-        <Input onChangeText={(e) => setText(e)} placeholder='Usuário' value={text} />
-        <Input onChangeText={(e) => setPassword(e)} placeholder='Senha' value={password} secureTextEntry keyboardType={'visible-password'} />
-        <ButtonComponent onPress={() => { }} title='Entrar' textAligh='default' />
-        <ButtonComponent onPress={() => { }} title='Entrar' textAligh='center' />
-        <ButtonComponent onPress={() => { }} title='Rodrigo Facio' image={<MaterialIcons name="arrow-forward-ios" size={24} color="white" />} />
-        <ButtonComponent onPress={() => { }} title='Rodrigo Facio' image={<MaterialIcons name="arrow-forward-ios" size={24} color="white" />} textAligh='center' />
-      </View>
-      <StatusBar style="auto" />
-    </View>
-  </ThemeProvider>
+  return (
+    <NavigationContainer>
+      {/* //@ts-ignore */}
+      <AuthProvider>
+        <Routes />
+
+      </AuthProvider>
+    </NavigationContainer>
   );
 }
 

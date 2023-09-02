@@ -7,6 +7,7 @@ import logo from '../../../assets/logo.png'
 import { KeyboardAvoidingView, Platform, View } from 'react-native'
 import axios from 'axios'
 import RNPickerSelect from 'react-native-picker-select';
+import { useRoute,useNavigation } from '@react-navigation/native';
 
 import { api } from '../../utils/api'
 import { Select } from '../../components/Select'
@@ -24,11 +25,12 @@ interface IMenuCard {
 export const ScreenQuestions = () => {
     const [data,setData] = useState<IMenuCard[]>([])
     const [text,setText] = useState('')
-
+    const navigation =  useNavigation()
+    const route = useRoute();
     useEffect(() => {
-        
     const getMenu = async()=>{
-        const {data}  = await api.get('/questions/6');
+        //@ts-ignore
+        const {data}  = await api.get(`/questions/${route.params.questionId}`);
         setData(data.data)
 
     }
@@ -40,9 +42,9 @@ export const ScreenQuestions = () => {
         
         <S.Container  >
             <S.Title>
-                {data[0].category.name}
+                {data[0]?.category.name}
             </S.Title>
-            <S.ViewQuestions>
+            <S.ViewQuestions showsVerticalScrollIndicator={false}>
             {
                 data.length>0&&
                 data?.map((item)=>(

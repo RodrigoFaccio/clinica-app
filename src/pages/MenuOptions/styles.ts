@@ -1,4 +1,3 @@
-import { DefaultTheme } from '@react-navigation/native';
 import styled from 'styled-components/native';
 import ThemeDefault from '../../styles/themes/default';
 
@@ -15,7 +14,7 @@ export const TitleName = styled.Text`
   font-size: 36px;
   font-weight: bold;
   color: ${ThemeDefault.colors.primary};
-  margin-top: 100px;
+  margin-top: 180px;
   margin-bottom: 50px;
 
 

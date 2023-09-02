@@ -1,6 +1,7 @@
 import { KeyboardTypeOptions, View } from "react-native";
 import { css } from "styled-components";
 import styled from "styled-components/native";
+import ThemeDefault from "../styles/themes/default";
 
 type InputProps = {
     placeholder?: string;
@@ -50,7 +51,7 @@ const ContainerInput = styled.View<InputProps['widthInput']>`
     font-weight: 600;
 
     border-radius: 8px;
-    border: 2px solid rgba(83, 189, 189, 0.8);
+    border: 2px solid ${ThemeDefault.colors.primary } ;
 
     background-color: #fff;
     padding-right: 16px;

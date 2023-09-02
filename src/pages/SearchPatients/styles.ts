@@ -1,17 +1,10 @@
 import styled from 'styled-components/native';
+import ThemeDefault from '../../styles/themes/default';
 
-<<<<<<< HEAD
 export const Container = styled.View`
   justify-content: center;
   align-items: center;
   flex: 1;
-=======
-export const Container = styled.KeyboardAvoidingView`
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  gap: 20px;
->>>>>>> cb12bbd (new screens)
 `;
 export const Image = styled.Image`
   width: 90%;
@@ -28,7 +21,7 @@ export const Title = styled.Text`
 font-size: 26px;
 margin-left: -5%;
 font-weight: bold;
-color:#53BDBD;
+color:${ThemeDefault.colors.primary } ;
 margin-bottom: 20px;
 `;
 export const ViewTitle = styled.View`
@@ -39,7 +32,7 @@ export const ViewTitle = styled.View`
 `;
 export const NoResultText = styled.Text`
 font-weight: bold;
-color:#53BDBD;
+color:${ThemeDefault.colors.primary } ;
 `;
 export const Emoji = styled.Image`
 width: 50px;
