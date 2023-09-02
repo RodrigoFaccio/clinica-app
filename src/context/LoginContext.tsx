@@ -3,6 +3,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface User {
   username: string;
+  id: number;
+
   // Adicione outros campos do usuário, se necessário
 }
 

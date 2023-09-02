@@ -31,7 +31,7 @@ export const MenuOptions = () => {
         </S.TitleName>
                     <ButtonComponent  onPress={() => {
                         //@ts-ignore
-                        navigation.navigate('Menu',{name:route.params.name}) 
+                        navigation.navigate('Menu',{name:route.params.name,id:route.params.id}) 
                         }} title="Iniciar Ficha" textAlign='center' size='90%'/>
                     <ButtonComponent  onPress={() => { }} title="Consultar fichas" textAlign='center' size='90%' />
 

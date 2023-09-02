@@ -25,7 +25,11 @@ const handleLogin = async ()=>{
 
         if(data.code===200){
             console.log(data.data.username)
-            login(data.data.username)
+            const dataLogin = {
+                id:data.data.id,
+                username:data.data.username
+            }
+            login(dataLogin)
             
     
         }

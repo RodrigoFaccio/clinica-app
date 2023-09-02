@@ -13,6 +13,7 @@ import Modal from 'react-native-modal';
 import ThemeDefault from '../../styles/themes/default';
 import { Loading } from '../../components/Loading';
 import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../../context/LoginContext';
 
 interface IMenuCard {
   id: number;
@@ -24,6 +25,9 @@ export const SearchPatients = () => {
   const [search, setSearch] = useState<string>('');
   const [includeName, setIncludeName] = useState<string>('');
   const navigation = useNavigation();
+  const { user, login, logout } = useAuth();
+  //logout()
+  console.log(user)
 
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
 
@@ -32,6 +36,7 @@ export const SearchPatients = () => {
   };
 
   useEffect(() => {
+    
     const getMenu = async () => {
       const { data } = await api.get('/patients', {
         params: {
@@ -76,7 +81,7 @@ export const SearchPatients = () => {
               <ButtonComponent
               size='90%'
               //@ts-ignore
-                onPress={() => {navigation.navigate('MenuOptions',{name:item.name})}}
+                onPress={() => {navigation.navigate('MenuOptions',{name:item.name,id:item.id})}}
                 title={item.name}
                 textAlign='default'
                 image={<MaterialIcons name='arrow-forward-ios' size={24} color={ThemeDefault.colors.white} />}
