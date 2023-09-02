@@ -12,6 +12,7 @@ import { useRoute, useNavigation, useFocusEffect } from '@react-navigation/nativ
 import { api } from '../../utils/api'
 import { Select } from '../../components/Select'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Loading } from '../../components/Loading'
 interface IMenuCard {
     id: number;
     categoryId: number;
@@ -32,6 +33,8 @@ export const ScreenQuestions = () => {
     const [text, setText] = useState('')
     const [dateFiles, setDateFiles] = useState<any>()
     const [retur, setRetur] = useState<any>()
+    const [loading, setLoading] = useState<any>(false)
+
     const route = useRoute();
 
 
@@ -44,31 +47,31 @@ export const ScreenQuestions = () => {
     //         [data[0]?.category.name]: dynamicStates
     //     }
     // )
+
+    
     useFocusEffect(
         useCallback(() => {
             const getMenu = async () => {
                 try {
                     const storedAnswers: any = await AsyncStorage.getItem('answers');
                     const dataAnswers = JSON.parse(storedAnswers);
-                    console.log('Stored Answers:', dataAnswers);
+                   
 
                     //@ts-ignore
                     const { data } = await api.get(`/questions/${route.params.questionId}`);
                     setData(data.data);
+                    console.log(dataAnswers?.data?.[data.data[0].category.name])
+                    if(dataAnswers!==null){
+                        console.log('setsdsads')
+                        const resulsts = createDynamicStates(data.data.length,dataAnswers?.data?.[data.data[0].category.name])
+                        console.log('AQUI',)
+                        setDynamicStates(resulsts)
 
-                    const initialValues = data.data.map((item: IMenuCard) => {
-                        console.log('item', item)
-                        const storedAnswer = dataAnswers?.data?.Naturalistico?.find((storedItem: any) => storedItem.id === item.id);
-                        console.log('teste', storedAnswer)
-                        return storedAnswer ? storedAnswer.answers : '';
-                    });
-                    console.log(initialValues)
-                    const newDynamicStates = createDynamicStates(data.data.length, initialValues);
-                    setDynamicStates(newDynamicStates);
 
-                    if (storedAnswers) {
-                        setDateFiles(JSON.parse(storedAnswers));
+                    }else{
+                        createDynamicStates(data.data,[])
                     }
+                   
                 } catch (error) {
                     console.error('An error occurred:', error);
                 }
@@ -80,10 +83,10 @@ export const ScreenQuestions = () => {
 
 
 
-
     const handleSave = async () => {
 
         const lastDate = dateFiles
+        console.log('LASTED',lastDate)
 
         if (lastDate !== undefined) {
             const dateLastDate = lastDate.data
@@ -95,7 +98,7 @@ export const ScreenQuestions = () => {
             }
             AsyncStorage.setItem('answers', JSON.stringify(dataSave));
             //@ts-ignore
-            navigation.navigate('Menu', { id: route.params.id })
+            navigation.navigate('Menu', { id: route.params.id,name:route.params.name })
 
         } else {
             const dataSave = {
@@ -108,23 +111,27 @@ export const ScreenQuestions = () => {
     };
 
     const updateDynamicState = (index: any, value: any, questionId: any) => {
+        console.log(index, value, questionId)
+        console.log('LOGUE',dynamicStates)
+
         const newDynamicStates = [...dynamicStates];
+        console.log('LOGUE',newDynamicStates)
         newDynamicStates[index] = { "id": questionId, "answers": value };
         setDynamicStates(newDynamicStates);
+       // console.log(newDynamicStates)
     };
 
     // Função para criar e configurar estados dinamicamente com base no tamanho do data
     const createDynamicStates = (dataLength: any, initialValues: any[] = []) => {
-        console.log('initi', initialValues, dataLength)
+        console.log(dataLength,initialValues)
         const dynamicStates = [];
         for (let i = 0; i < dataLength; i++) {
             dynamicStates.push(initialValues[i] || '');
+            console.log('asdsd',dynamicStates)
         }
-        console.log('dynamicStates', dynamicStates)
 
         return dynamicStates;
     };
-
 
     return (
 
@@ -141,7 +148,7 @@ export const ScreenQuestions = () => {
                                 <Input
                                     widthInput={'100%'}
                                     onChangeText={(e) => updateDynamicState(index, e, item.id)}
-                                    value={dynamicStates[index] ?? ''}
+                                    value={dynamicStates?.[index]?.answers }
                                 />
                             )}
                             {item.type === 'select' && <Select />}

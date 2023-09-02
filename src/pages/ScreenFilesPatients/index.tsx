@@ -12,7 +12,7 @@ import emoji from '../../../assets/emoji.png';
 import Modal from 'react-native-modal';
 import ThemeDefault from '../../styles/themes/default';
 import { Loading } from '../../components/Loading';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useAuth } from '../../context/LoginContext';
 
 interface IMenuCard {
@@ -20,7 +20,7 @@ interface IMenuCard {
   name: string;
 }
 
-export const SearchPatients = () => {
+export const ScreenFilesPatients = () => {
   const [dataMenu, setDataMenu] = useState<IMenuCard[]>([]);
   const [search, setSearch] = useState<string>('');
   const [includeName, setIncludeName] = useState<string>('');
@@ -28,7 +28,7 @@ export const SearchPatients = () => {
   const { user, login, logout } = useAuth();
   //logout()
   console.log(user)
-
+  const route = useRoute();
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
 
   const toggleModal = () => {
@@ -36,16 +36,13 @@ export const SearchPatients = () => {
   };
 
   useEffect(() => {
-
+    
     const getMenu = async () => {
       const { data } = await api.get('/patients', {
         params: {
           name: search,
         },
       });
-
-     
-       
       setDataMenu(data.data);
     };
     getMenu();
@@ -66,14 +63,11 @@ export const SearchPatients = () => {
   return (
     <>
       <S.ViewTitle>
-        <S.Title>Buscar paciente</S.Title>
-        <Input
-          widthInput={'90%'}
-          onChangeText={(e) => setSearch(e)}
-          placeholder='Pacientes...'
-          value={search}
-          iconRight={<FontAwesome name='search' size={24} color={ThemeDefault.colors.primary }  />}
-        />
+        <S.Title>{
+          //@ts-ignore
+          route.params.name
+          }</S.Title>
+        
       </S.ViewTitle>
       <ScrollView          
         showsVerticalScrollIndicator={false}

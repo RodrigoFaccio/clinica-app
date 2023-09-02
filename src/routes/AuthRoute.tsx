@@ -7,6 +7,7 @@ import ThemeDefault from '../styles/themes/default';
 import { ScreenQuestions } from '../pages/ScreenQuestions';
 import { Menu } from '../pages/Menu';
 import { MenuOptions } from '../pages/MenuOptions';
+import { ScreenFilesPatients } from '../pages/ScreenFilesPatients';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,8 @@ const AuthRoutes = () => {
       <Stack.Screen name="ScreenQuestions" component={ScreenQuestions} />
       <Stack.Screen name="Menu" component={Menu} />
       <Stack.Screen name="MenuOptions" component={MenuOptions} />
+      <Stack.Screen name="FilesPatients" component={ScreenFilesPatients} />
+
 
 
 
