@@ -5,7 +5,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { api } from '../../utils/api';
 import * as S from './styles';
 import { ButtonComponent } from '../../components/Button';
-import { Platform } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import { useAuth } from '../../context/LoginContext';
 
 interface IMenuCard {
@@ -31,7 +31,22 @@ export const Menu = () => {
   useFocusEffect(
    useCallback(() => {
     setReloadData((prevReloadData) => !prevReloadData);
+    
+    const getFilesExist = async()=>{
+    //@ts-ignore
 
+      if(route.params.fileId){
+    //@ts-ignore
+        const response= await api.get(`/answers/${route.params.fileId}`);
+        const data = {
+          data:response.data
+        }
+        AsyncStorage.setItem('answers', JSON.stringify(data));
+        setDateFiles(data)
+
+      }
+    }
+    getFilesExist()
     }, [])
   );
 
@@ -61,11 +76,13 @@ export const Menu = () => {
       })
 
       AsyncStorage.removeItem('answers');
+      Alert.alert('Ficha enviada com sucesso ')
     }
 
       
   }
-
+  //@ts-ignore
+console.log(route.params.disable)
   return (
     <S.Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <S.TitleName>
@@ -81,7 +98,10 @@ export const Menu = () => {
             key={item.id}
             onPress={() => {
               //@ts-ignore
-              navigation.navigate('ScreenQuestions', { questionId: item.id,id:route.params.id });
+              navigation.navigate('ScreenQuestions', { 
+              //@ts-ignore
+
+                questionId: item.id,id:route.params.id,disable:route.params.disable });
             }}
             title={item.name}
             textAlign="center"

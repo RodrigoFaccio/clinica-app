@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Input } from '../../components/Input';
 import * as S from './styles';
 import { ButtonComponent } from '../../components/Button';
@@ -12,8 +12,9 @@ import emoji from '../../../assets/emoji.png';
 import Modal from 'react-native-modal';
 import ThemeDefault from '../../styles/themes/default';
 import { Loading } from '../../components/Loading';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../context/LoginContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface IMenuCard {
   id: number;
@@ -34,6 +35,17 @@ export const SearchPatients = () => {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+  useFocusEffect(
+    useCallback(() => {
+        const getMenu = async () => {
+            AsyncStorage.removeItem('answers');
+           
+        };
+
+        getMenu();
+    }, [])
+);
+
 
   useEffect(() => {
 

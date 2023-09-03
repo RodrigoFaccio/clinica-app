@@ -2,6 +2,7 @@ import { KeyboardTypeOptions, View } from "react-native";
 import { css } from "styled-components";
 import styled from "styled-components/native";
 import ThemeDefault from "../styles/themes/default";
+import { TurboModuleRegistry } from "react-native";
 
 type InputProps = {
     placeholder?: string;
@@ -11,18 +12,22 @@ type InputProps = {
     keyboardType?: KeyboardTypeOptions;
     iconRight?: any
     widthInput?: any
+    disable?:boolean
 }
 
-export const Input = ({ placeholder, onChangeText, value, secureTextEntry, keyboardType, iconRight, widthInput }: InputProps) => {
+export const Input = ({ placeholder,disable, onChangeText, value, secureTextEntry, keyboardType, iconRight, widthInput }: InputProps) => {
     return (
         <ContainerInput width={widthInput}>
             <InputStyled
+        
                 placeholder={placeholder}
                 onChangeText={onChangeText}
                 value={value}
                 secureTextEntry={secureTextEntry}
                 placeholderTextColor={'rgba(83, 189, 189, 0.6)'}
                 keyboardType={keyboardType}
+                editable={disable}
+                
             />
             <IconStyled>{iconRight}</IconStyled>
 

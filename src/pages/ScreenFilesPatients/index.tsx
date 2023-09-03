@@ -14,14 +14,26 @@ import ThemeDefault from '../../styles/themes/default';
 import { Loading } from '../../components/Loading';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useAuth } from '../../context/LoginContext';
+import { CardFiles } from '../../components/CardFiles';
 
-interface IMenuCard {
+interface PatientsFile {
   id: number;
-  name: string;
+  userId: number;
+  patientId: number;
+  created_at: string;
+  updated_at: string;
+  patient: {
+    id: number;
+    name: string;
+    created_at: string;
+    updated_at: string;
+  };
 }
 
+
+
 export const ScreenFilesPatients = () => {
-  const [dataMenu, setDataMenu] = useState<IMenuCard[]>([]);
+  const [dataMenu, setDataMenu] = useState<PatientsFile[]>([]);
   const [search, setSearch] = useState<string>('');
   const [includeName, setIncludeName] = useState<string>('');
   const navigation = useNavigation();
@@ -30,7 +42,7 @@ export const ScreenFilesPatients = () => {
   console.log(user)
   const route = useRoute();
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
-
+console.log(route)
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
@@ -38,7 +50,8 @@ export const ScreenFilesPatients = () => {
   useEffect(() => {
     
     const getMenu = async () => {
-      const { data } = await api.get('/patients', {
+      //@ts-ignore
+      const { data } = await api.get(`answers/all/${route.params.id}`, {
         params: {
           name: search,
         },
@@ -48,17 +61,7 @@ export const ScreenFilesPatients = () => {
     getMenu();
   }, [search]);
 
-  const handleRegisterPatients = async () => {
-    const { data } = await api.post('/patients/create', {
-        name:includeName
-    });
-    setSearch('')
-    setModalVisible(false)
-    setIncludeName('')
-  };
-  if(dataMenu.length<=0 && search===''){
-    return <Loading/>
-  }
+  
 
   return (
     <>
@@ -75,11 +78,12 @@ export const ScreenFilesPatients = () => {
         {dataMenu.length > 0 ? (
           dataMenu?.map((item) => (
             <View key={item.id} style={{ marginTop: 20 }}>
-              <ButtonComponent
+              <CardFiles
               size='90%'
+              date={item.created_at}
               //@ts-ignore
-                onPress={() => {navigation.navigate('MenuOptions',{name:item.name,id:item.id})}}
-                title={item.name}
+                onPress={() => {navigation.navigate('Menu',{name:item.patient.name,id:item.patient.id,fileId:item.id,disable:false})}}
+                title={item?.patient?.name}
                 textAlign='default'
                 image={<MaterialIcons name='arrow-forward-ios' size={24} color={ThemeDefault.colors.white} />}
               />
@@ -87,26 +91,7 @@ export const ScreenFilesPatients = () => {
           ))
         ) : (
           <>
-            <S.NoResults>
-              <S.Emoji source={emoji} />
-              <S.NoResultText>Paciente não encontrado</S.NoResultText>
-            </S.NoResults>
-            <ButtonComponent size='90%' onPress={() => {setModalVisible(true)}} title='Cadastrar paciente' textAlign='center' />
-            <View>
-                <Modal isVisible={isModalVisible}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalText}>Cadastrar paciente</Text>
-                        <Input
-                        widthInput={'90%'}
-                        onChangeText={(e) => setIncludeName(e)}
-                        placeholder='Nome'
-                        value={includeName}
-                        iconRight={<FontAwesome name='search' size={24} color={ThemeDefault.colors.primary }  />}
-                        />
-                    <ButtonComponent size='90%' onPress={handleRegisterPatients} title='Cadastrar' textAlign='center' />
-                    </View>
-                </Modal>
-            </View>
+           
           </>
         )}
       </ScrollView>

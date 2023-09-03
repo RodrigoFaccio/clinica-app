@@ -38,15 +38,10 @@ export const ScreenQuestions = () => {
     const route = useRoute();
 
 
-    // console.log('DATE', dateFiles)
 
     const navigation = useNavigation()
     const [dynamicStates, setDynamicStates] = useState<any[]>([]);
-    // console.log(
-    //     {
-    //         [data[0]?.category.name]: dynamicStates
-    //     }
-    // )
+    
 
     
     useFocusEffect(
@@ -54,18 +49,17 @@ export const ScreenQuestions = () => {
             const getMenu = async () => {
                 try {
                     const storedAnswers: any = await AsyncStorage.getItem('answers');
+                    setDateFiles(JSON.parse(storedAnswers));
                     const dataAnswers = JSON.parse(storedAnswers);
+                    console.log('qq',dataAnswers)
                    
 
                     //@ts-ignore
                     const { data } = await api.get(`/questions/${route.params.questionId}`);
                     setData(data.data);
-                    console.log(dataAnswers?.data?.[data.data[0].category.name])
                     if(dataAnswers!==null){
-                        console.log('setsdsads')
-                        const resulsts = createDynamicStates(data.data.length,dataAnswers?.data?.[data.data[0].category.name])
-                        console.log('AQUI',)
-                        setDynamicStates(resulsts)
+                        const resultsDynamic = createDynamicStates(data.data.length,dataAnswers?.data?.[data.data[0].category.name])
+                        setDynamicStates(resultsDynamic)
 
 
                     }else{
@@ -86,9 +80,8 @@ export const ScreenQuestions = () => {
     const handleSave = async () => {
 
         const lastDate = dateFiles
-        console.log('LASTED',lastDate)
 
-        if (lastDate !== undefined) {
+        if (lastDate !== undefined && lastDate!==null) {
             const dateLastDate = lastDate.data
             const dataSave = {
                 "data": {
@@ -107,31 +100,30 @@ export const ScreenQuestions = () => {
                 }
             }
             AsyncStorage.setItem('answers', JSON.stringify(dataSave));
+            //@ts-ignore
+            navigation.navigate('Menu', { id: route.params.id,name:route.params.name })
+
         }
     };
 
     const updateDynamicState = (index: any, value: any, questionId: any) => {
-        console.log(index, value, questionId)
-        console.log('LOGUE',dynamicStates)
 
         const newDynamicStates = [...dynamicStates];
-        console.log('LOGUE',newDynamicStates)
         newDynamicStates[index] = { "id": questionId, "answers": value };
         setDynamicStates(newDynamicStates);
-       // console.log(newDynamicStates)
     };
 
     // Função para criar e configurar estados dinamicamente com base no tamanho do data
     const createDynamicStates = (dataLength: any, initialValues: any[] = []) => {
-        console.log(dataLength,initialValues)
         const dynamicStates = [];
         for (let i = 0; i < dataLength; i++) {
             dynamicStates.push(initialValues[i] || '');
-            console.log('asdsd',dynamicStates)
         }
 
         return dynamicStates;
     };
+    //@ts-ignore
+    console.log(route.params.disable)
 
     return (
 
@@ -149,9 +141,14 @@ export const ScreenQuestions = () => {
                                     widthInput={'100%'}
                                     onChangeText={(e) => updateDynamicState(index, e, item.id)}
                                     value={dynamicStates?.[index]?.answers }
+                                    //@ts-ignore
+                                    disable={route.params.disable}
                                 />
                             )}
-                            {item.type === 'select' && <Select />}
+                            {item.type === 'select' && <Select disable={
+                                //@ts-ignore
+                                route.params.disable
+                                } value={dynamicStates?.[index]?.answers} onChange={(e) => updateDynamicState(index, e, item.id)}  />}
                         </View>
                     ))}
 

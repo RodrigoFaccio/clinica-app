@@ -1,11 +1,12 @@
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Input } from '../../components/Input'
 import * as S from './styles'
 import { ButtonComponent } from '../../components/Button'
 import logo from '../../../assets/logo.png'
 import { KeyboardAvoidingView, Platform } from 'react-native'
-import { useNavigation,useRoute } from '@react-navigation/native';
+import { useFocusEffect, useNavigation,useRoute } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 interface IMenuCard {
     id:number;
@@ -16,7 +17,16 @@ export const MenuOptions = () => {
     const [dataMenu,setDataMenu] = useState<IMenuCard[]>([])
   const navigation = useNavigation();
   const route = useRoute();
+  useFocusEffect(
+    useCallback(() => {
+        const getMenu = async () => {
+            AsyncStorage.removeItem('answers');
+           
+        };
 
+        getMenu();
+    }, [])
+);
    
    
     return (

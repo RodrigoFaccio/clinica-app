@@ -10,20 +10,22 @@ import ThemeDefault from "../styles/themes/default";
 
 type InputProps = {
     
-    widthInput?: any
+    widthInput?: any,
+    onChange:(text:string)=>void;
+    value:string;
+    disable:boolean;
 }
 const items = [
     { label: 'Independente', value: 'independent' },
-    { label: 'Ajuda Física Parcial', value: 'physical_partial' },
-    { label: 'Ajuda Física Total', value: 'physical_total' },
-    { label: 'Ajuda Verbal Total', value: 'verbal_total' },
-    { label: 'Ajuda Verbal Parcial', value: 'verbal_partial' },
-    { label: 'Ajuda Visual Parcial', value: 'visual_partial' },
-    { label: 'Ajuda Visual Total', value: 'visual_total' },
-    { label: 'Erro', value: 'visual_total' },
+    { label: 'Ajuda Física Parcial', value: 'Ajuda Física Parcial' },
+    { label: 'Ajuda Verbal Total', value: 'Ajuda Verbal Total' },
+    { label: 'Ajuda Verbal Parcial', value: 'Ajuda Verbal Parcial' },
+    { label: 'Ajuda Visual Parcial', value: 'Ajuda Visual Parcial' },
+    { label: 'Ajuda Visual Total', value: 'Ajuda Visual Total' },
+    { label: 'Erro', value: 'Erro' },
 
   ];
-export const Select = ({widthInput }: InputProps) => {
+export const Select = ({widthInput,onChange,value,disable }: InputProps) => {
     return (
 
         <>
@@ -61,8 +63,11 @@ export const Select = ({widthInput }: InputProps) => {
                     </View>
                   );
                 }}
-                  onValueChange={(value) => console.log(value)}
+                  onValueChange={(value) => onChange(value)}
                   items={items}
+                  disabled={!disable}
+                  value={value}
+
                   />
                   
               </ContainerInput>
@@ -98,8 +103,11 @@ export const Select = ({widthInput }: InputProps) => {
                     </View>
                   );
                 }}
-                  onValueChange={(value) => console.log(value)}
+                  onValueChange={(value) =>onChange(value)}
                   items={items}
+                  value={value}
+                  disabled={!disable}
+
                   />
                    
             )
